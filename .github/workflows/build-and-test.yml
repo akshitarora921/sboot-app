@@ -26,7 +26,7 @@ jobs:
   test:
 
     strategy:
-      akshit:
+      matrix:
         browser: [chrome, firefox]
         device: [desktop, mobile]
 
@@ -41,10 +41,10 @@ jobs:
 
     steps:
 
-      - name: Demo of how to access current akshit context
+      - name: Demo of how to access current matrix context
         run: |
-          echo "Browser:" ${{ akshit.browser }}
-          echo "Device: ${{ akshit.device }}"
+          echo "Browser:" ${{ matrix.browser }}
+          echo "Device: ${{ matrix.device }}"
 
       - name: Step inside test job
         run: echo "Hello $NAME"
