@@ -9,18 +9,42 @@ env:
 
 jobs:
 
+  build:
+
+    runs-on: ubuntu-20.04
+
+    timeout-minutes: 5
+
+    steps:
+
+      - name: Greet user
+        run: echo "Hello $NAME"
+
+      - name: Another step
+        run: echo "This is another step in the same job"
+
   test:
+
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+        device: [desktop, mobile]
 
     runs-on: ubuntu-22.04
 
     timeout-minutes: 10
 
+    needs: build
+
     env:
       NAME: Planet
 
-    needs: build
-
     steps:
+
+      - name: Demo of how to access current matrix context
+        run: |
+          echo "Browser:" ${{ matrix.browser }}
+          echo "Device: ${{ matrix.device }}"
 
       - name: Step inside test job
         run: echo "Hello $NAME"
@@ -29,16 +53,3 @@ jobs:
         run: echo "This is another step in the same job"
 
 
-  build:
-
-      runs-on: ubuntu-20.04
-
-      timeout-minutes: 5
-
-      steps:
-
-        - name: Greet user
-          run: echo "Hello $NAME"
-
-        - name: Another step
-          run: echo "This is another step in the same job"
